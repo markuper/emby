@@ -20,7 +20,7 @@
     * (string) type: local|remote - local кнопки шлют sendMessage в родительский window c параметром action, remote кнопки шлют сообщения на удаленный сервер посреством webhook
     * (string | array | object) action - параметр которые пересылается при нажатии на кнопку
 
-В POST и PUT запросах параметры можно отправлять как в form-data так и в json
+В POST и PUT запросах параметры можно отправлять как в form-data, так и в json
 
 ## Генерация ссылок
 
@@ -173,9 +173,8 @@ public function updateMessage($messageId, array $data)
     // переменная $queryParams содержит параметры POST запроса
     $queryParams = [
         'api_token' => $apiToken,
-        'message' => array_merge([$messageId], $data)
+        'message' => $data
     ]
-
 
     if (isset($queryParams['message']['buttons']))
     {
@@ -214,7 +213,7 @@ public function updateMessage($messageId, array $data)
 **Типы событий (event_name):**
 
 * message_button - пользователь нажал на кнопку, в params дополнительно приходит поле
-    * (string | array | object) button_action - параметры кнопки
+    * (json string) button_action - параметры кнопки
 
 * new_message - новое сообщение, в params дополнительно приходит поле
     * (string) message_text
