@@ -22,11 +22,11 @@
 
 В POST и PUT запросах параметры можно отправлять как в form-data так и в json
 
-## Генрация ссылок
+## Генерация ссылок
 
 GET /?{request_uri}
 
-```
+```php
 function generateEmbyUrl($chatId, User $user, $recipients, $extra = [])
 {
     // получаем из конфигов идентифкатор клиента и секретный чат
@@ -101,7 +101,7 @@ function generateEmbyUrl($chatId, User $user, $recipients, $extra = [])
 
 POST /api/v1/messages
 
-```
+```php
 function sendMessage($chatId, User $user, $recipients, $message, array $extra = [], array $buttons = [])
 {
     // получаем из конфигов токен апи и базовый урл эмби
@@ -159,7 +159,7 @@ function sendMessage($chatId, User $user, $recipients, $message, array $extra = 
 
 PUT api/v1/messages/{message_id}
 
-```
+```php
 /**
  * @param string $messageId
  * @param array $data { text, extra, buttons, is_deleted }
