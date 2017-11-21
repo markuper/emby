@@ -20,7 +20,7 @@
     * (string) type: local|remote - local кнопки шлют sendMessage в родительский window c параметром action, remote кнопки шлют сообщения на удаленный сервер посреством webhook
     * (string | array | object) action - параметр которые пересылается при нажатии на кнопку
 
-В POST и PUT запросах параметры можно отправлять как в form-data, так и в json
+В POST и PUT запросах параметры нужно отправлять в виде JSON в теле запроса
 
 ## Генерация ссылок
 
@@ -125,15 +125,13 @@ function sendMessage($chatId, User $user, $recipients, $message, array $extra = 
     // если переданные экстра параметры сообщения
     if (count($extra))
     {
-        // кодируем дополнительные параметры в json string
-        $queryParams['message']['extra'] = json_encode($extra);
+        $queryParams['message']['extra'] = $extra;
     }
 
     // если переданы кнопки для сообщения
     if (count($buttons))
     {
-        // кодируем кнопки в json string
-        $queryParams['message']['buttons'] = json_encode($buttons);
+        $queryParams['message']['buttons'] = $buttons;
     }
 
     foreach ($recipients as $recipient)
@@ -150,7 +148,7 @@ function sendMessage($chatId, User $user, $recipients, $message, array $extra = 
 
     // отправляем POST запрос с параметрами
     $client->post($url, [
-        'form_params' => $queryParams
+        'json' => $queryParams
     ]);
 }
 ```
@@ -162,7 +160,7 @@ PUT api/v1/messages/{message_id}
 ```php
 /**
  * @param string $messageId
- * @param array $data { text, extra, buttons, is_deleted }
+ * @param array $data Обновляемые поля сообщения  { text, extra, buttons, is_deleted }
  */
 public function updateMessage($messageId, array $data)
 {
@@ -176,34 +174,21 @@ public function updateMessage($messageId, array $data)
         'message' => $data
     ]
 
-    if (isset($queryParams['message']['buttons']))
-    {
-        // кодируем кнопки в json string
-        $queryParams['message']['buttons'] = json_encode($queryParams['message']['buttons']);
-    }
-
-    if (isset($queryParams['message']['extra']))
-    {
-        // кодируем дополнительные параметры в json string
-        $queryParams['message']['extra'] = json_encode($queryParams['message']['extra']);
-    }
-
     $client = new GuzzleClient();
     $url = $baseUrl . 'api/v1/message/{$messageId}';
 
     // отправляем PUT запрос с параметрами
     $client->put($url, [
-        'form_params' => $queryParams,
-        'http_errors' => false
+        'json' => $queryParams
     ]);
 }
 ```
 
 ## Webhook
 
-В POST запросе приходят данные:
+В POST-запросе приходят данные в виде JSON в теле запроса:
 
-* event_name: message_button|new_message
+* event: message_button|new_message
 * params: содержит набор параметров, общие параметры для всех типов такие
     * client_id
     * chat_id
@@ -213,7 +198,7 @@ public function updateMessage($messageId, array $data)
 **Типы событий (event_name):**
 
 * message_button - пользователь нажал на кнопку, в params дополнительно приходит поле
-    * (json string) button_action - параметры кнопки
+    * (object) button_action - параметры кнопки
 
 * new_message - новое сообщение, в params дополнительно приходит поле
     * (string) message_text
