@@ -203,3 +203,4 @@ public function updateMessage($messageId, array $data)
 
 * new_message - новое сообщение, в params дополнительно приходит поле
     * (string) message_text
+    * (string) message_date
