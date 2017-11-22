@@ -117,8 +117,10 @@ function sendMessage($chatId, User $user, $recipients, $message, array $extra = 
             'name' => $user->name
         ],
         'chat_id' => $chatId,
-        'message' => [
-            'text' => $message
+        'messages' => [
+            [
+               'text' => $message
+            ]
         ],
         'recipients' => []
     ];
