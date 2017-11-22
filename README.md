@@ -32,6 +32,7 @@ function generateEmbyUrl($chatId, User $user, $recipients, $extra = [])
     // получаем из конфигов идентифкатор клиента и секретный чат
     $clientId = Config::get('emby.client_id');
     $clientSecret = Config::get('emby.client_id');
+    // базовая часть урла API (http://emby.markuper.com/)
     $baseUrl = Config::get('emby.base_url');
 
 
@@ -92,7 +93,6 @@ function generateEmbyUrl($chatId, User $user, $recipients, $extra = [])
     $query = http_build_query($queryParams, null, '&');
 
     // вовзращаем строку с абсолюиным адресом запроса
-    // $baseUrl = http://emby.markuper.com
     return $baseUrl . '?' . $query;
 }
 ```
@@ -106,6 +106,7 @@ function sendMessage($chatId, User $user, $recipients, $message, array $extra = 
 {
     // получаем из конфигов токен апи и базовый урл эмби
     $apiToken = Config::get('emby.api_token');
+    // базовая часть урла API (http://emby.markuper.com/)
     $baseUrl = Config::get('emby.base_url');
 
     // переменная $queryParams содержит параметры POST запроса
