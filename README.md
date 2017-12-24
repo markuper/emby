@@ -9,9 +9,11 @@
 * (hash) user - данные текущего пользователя
     * (string | number) id - идентификатор пользователя
     * (string) name - имя пользователя
+    * (bool) is_bot - флаг, указывающий, что пользователь является ботом
 * (array of hash) recipients данные остальных пользователей чата
     * (string | number) id - идентификатор пользователя
     * (string) name - имя пользователя
+    * (bool) is_bot - флаг, указывающий, что пользователь является ботом
 * (string) signature - подпись запроса, генерируется на основе строгой последовательности параметров client_id, client_secret, random number, user.id, user.name, recipient.id, recipient.name
 * (array) extra - дополнительные параметры сообщения, которые могут пригодиться для бизнес логики чата. К примеру есть параметр isService, если он проставлен в true, такие сообщения отображаются серым цветом
 * (array) buttons - кнопки в сообщении, при нажатии на которые можно активировать отсылать эвенты
@@ -114,7 +116,8 @@ function sendMessage($chatId, User $user, $recipients, $message, array $extra = 
         'api_token' => $apiToken,
         'user' => [
             'id' => $user->id,
-            'name' => $user->name
+            'name' => $user->name,
+            'is_bot' => true
         ],
         'chat_id' => $chatId,
         'messages' => [
