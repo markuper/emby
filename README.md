@@ -190,6 +190,26 @@ public function updateMessage($messageId, array $data)
 }
 ```
 
+## Удалить пользователя из чата
+
+DELETE  api/v1/chats/{chat_id}/users/{user_id}
+
+```php
+public function deleteUserFromChat($userId, $chatId)
+{
+    $queryParams = [
+       'api_token' => $this->apiToken
+    ];
+
+    $client = new GuzzleClient();
+    $url = $baseUrl . 'api/v1/chats/' . $chatId . '/users/' . $userId;
+
+    $res = $client->delete($url, [
+        'json' => $queryParams
+    ]);
+ }
+```
+
 ## Webhook
 
 В POST-запросе приходят данные в виде JSON в теле запроса:
