@@ -195,6 +195,10 @@ public function updateMessage($messageId, array $data)
 DELETE  api/v1/chats/{chat_id}/users/{user_id}
 
 ```php
+/**
+ * @param string $userId — id пользователя
+ * @param array $chatId — id чата
+ */
 public function deleteUserFromChat($userId, $chatId)
 {
     $queryParams = [
